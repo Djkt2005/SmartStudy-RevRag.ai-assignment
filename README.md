@@ -2,13 +2,28 @@
 
 An AI-inspired study helper that combines live topic lookups with generated summaries, quizzes, and math practice. Students enter any topic, choose between a standard study pack or Math Mode, and receive structured learning materials in seconds.
 
+<img width="1919" height="766" alt="Screenshot 2025-11-14 103133" src="https://github.com/user-attachments/assets/aa8763b9-4b14-4176-bed0-178e407c8d0f" />
+<img width="1916" height="746" alt="Screenshot 2025-11-14 103211" src="https://github.com/user-attachments/assets/2bcc80ec-222c-440b-a6ec-a06e7232f511" />
+
+
+
 ## Features
 
 - Topic-aware summaries condensed into three key bullet points.
 - Auto-generated multiple-choice quiz with explanations for each answer.
+  <img width="1907" height="753" alt="Screenshot 2025-11-14 103342" src="https://github.com/user-attachments/assets/019959f3-177d-42b3-bb90-5fd3055c710f" />
+
 - Actionable study tip tailored to the topic.
+  <img width="1233" height="358" alt="Screenshot 2025-11-14 103401" src="https://github.com/user-attachments/assets/9a03302b-7863-4709-9ced-dd29b40856d4" />
+
 - Math Mode that produces a quantitative or logic prompt with a worked solution.
+  <img width="1842" height="845" alt="Screenshot 2025-11-14 103459" src="https://github.com/user-attachments/assets/f2d9e69e-2d66-4688-b39d-90132b4e162c" />
+
 - Live loading and error states in the UI, plus Wikipedia attribution for transparency.
+  <img width="1439" height="810" alt="Screenshot 2025-11-14 103638" src="https://github.com/user-attachments/assets/3541e7db-0f54-46bf-8a90-d87d6d528a3f" />
+  <img width="1898" height="778" alt="Screenshot 2025-11-14 103753" src="https://github.com/user-attachments/assets/53b233c4-2a23-46a5-913a-c28d121e201b" />
+
+
 
 ## Project Structure
 
@@ -183,7 +198,7 @@ For topic "Photosynthesis" in standard mode:
 ### Hosted URLs
 
 - **Backend**: `https://smartstudy-revrag-ai-assignment.onrender.com`
-- **Frontend**: _[Add your frontend deployment URL here]_
+- **Frontend**: `https://smartstudy12345.netlify.app`
 
 ## Testing
 
