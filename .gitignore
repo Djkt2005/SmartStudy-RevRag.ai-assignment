@@ -9,7 +9,6 @@ pnpm-debug.log*
 
 # Environment files
 .env
-.env.*
 
 # Build output
 frontend/dist

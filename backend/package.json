@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "test": "node --test tests/api.test.js"
   },
   "dependencies": {
     "@google/genai": "^1.0.0",
