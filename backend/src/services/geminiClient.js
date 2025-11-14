@@ -57,8 +57,14 @@ export async function generateGeminiStudyPackage({ topic, mode, source }) {
 
   if (mode === 'math') {
     const question = assertString(parsedOutput.question, 'Gemini response missing math question.');
-    const answer = assertString(parsedOutput.answer, 'Gemini response missing math answer.');
+    const rawAnswer = assertString(parsedOutput.answer, 'Gemini response missing math answer.');
     const explanation = assertString(parsedOutput.explanation, 'Gemini response missing math explanation.');
+
+    // Extract numerical value from answer (handles cases where AI includes text/units)
+    const answer = extractNumericalValue(rawAnswer);
+    if (!answer) {
+      throw new Error('Gemini response missing valid numerical answer. Answer must be a number.');
+    }
 
     return {
       topic: normalizedTopic,
@@ -127,8 +133,8 @@ function buildMathPrompt(topic, source) {
     '}',
     'Requirements:',
     '- Provide ONE well-posed quantitative or logic question tied to the topic theme.',
-    '- Give the correct answer as a concise string.',
-    '- Provide a step-by-step explanation that justifies the answer.',
+    '- The answer MUST be a numerical value only (e.g., "42", "3.14", "-5", "0.5"). Do NOT include units, text, or explanations in the answer field.',
+    '- Provide a step-by-step explanation that justifies the answer in the explanation field.',
     '- Respond with STRICT JSON only, without markdown fences or commentary.',
     '',
     `Topic: ${topic}`,
@@ -269,5 +275,27 @@ function assertString(value, errorMessage) {
     throw new Error(errorMessage);
   }
   return value.trim();
+}
+
+function extractNumericalValue(answer) {
+  if (!answer) return '';
+  
+  // Remove common units and text, extract numerical value
+  const cleaned = answer.trim();
+  
+  // Try to find a number (including negative and decimal)
+  // Matches: -5, 42, 3.14, -2.5, 0.5, etc.
+  const numberMatch = cleaned.match(/-?\d*\.?\d+/);
+  if (numberMatch) {
+    const numValue = numberMatch[0];
+    // Validate it's a proper number
+    const parsed = parseFloat(numValue);
+    if (!isNaN(parsed)) {
+      return numValue;
+    }
+  }
+  
+  // If no valid number found, return empty string (will cause validation error)
+  return '';
 }
 

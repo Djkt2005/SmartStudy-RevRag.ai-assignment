@@ -3,10 +3,10 @@ import assert from 'node:assert';
 import http from 'node:http';
 
 const BASE_URL = 'http://localhost:4000';
-const TEST_PORT = 4001; // Use different port to avoid conflicts
+const TEST_PORT = 4001; 
 let server;
 
-// Helper function to make HTTP requests
+
 function makeRequest(method, path, body = null, port = 4000) {
   return new Promise((resolve, reject) => {
     const url = new URL(path, `http://localhost:${port}`);
@@ -46,14 +46,12 @@ function makeRequest(method, path, body = null, port = 4000) {
 
 describe('Smart Study Assistant API Tests', () => {
   before(async () => {
-    // Note: These tests assume the server is already running on port 4000
-    // Start the server manually before running tests: npm run start
-    // Or run tests while server is running in another terminal
+    
     await new Promise((resolve) => setTimeout(resolve, 500));
   });
 
   after(() => {
-    // Server cleanup would go here if needed
+    
   });
 
   it('Test Case 1: Health endpoint returns OK', async () => {

@@ -280,15 +280,22 @@ export default function App() {
                     <div className="math-input-group">
                       <input
                         id="math-answer"
-                        type="text"
+                        type="number"
+                        step="any"
                         value={mathAnswer}
-                        onChange={(e) => setMathAnswer(e.target.value)}
-                        placeholder="Enter your answer"
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // Allow empty string, negative numbers, decimals
+                          if (value === '' || /^-?\d*\.?\d*$/.test(value)) {
+                            setMathAnswer(value);
+                          }
+                        }}
+                        placeholder="Enter a number"
                         disabled={mathAnswerSubmitted}
                         autoComplete="off"
                       />
                       {!mathAnswerSubmitted && (
-                        <button type="submit" className="submit-answer-btn">
+                        <button type="submit" className="submit-answer-btn" disabled={!mathAnswer.trim()}>
                           Submit
                         </button>
                       )}

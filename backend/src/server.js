@@ -15,25 +15,40 @@ dotenv.config({ path: resolve(__dirname, '../.env') });
 
 const app = express();
 const PORT = process.env.PORT || 4000;
-const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split(',').map((origin) => origin.trim()).filter(Boolean);
+// Parse ALLOWED_ORIGINS: if set and non-empty, use it; otherwise allow all origins
+const ALLOWED_ORIGINS_RAW = process.env.ALLOWED_ORIGINS?.trim();
+const ALLOWED_ORIGINS = ALLOWED_ORIGINS_RAW && ALLOWED_ORIGINS_RAW.length > 0
+  ? ALLOWED_ORIGINS_RAW.split(',').map((origin) => origin.trim()).filter(Boolean)
+  : null;
 
 console.log(`[Startup] Gemini API key detected: ${hasGeminiClient() ? 'yes' : 'no'}.`);
+console.log(`[Startup] CORS: ${ALLOWED_ORIGINS ? `Restricted to ${ALLOWED_ORIGINS.length} origin(s)` : 'Allowing all origins'}`);
 
 app.use(express.json());
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || !ALLOWED_ORIGINS?.length) {
+      // Allow requests with no origin (like mobile apps, Postman, curl)
+      if (!origin) {
         callback(null, true);
         return;
       }
 
+      // If ALLOWED_ORIGINS is not set or empty, allow all origins
+      if (!ALLOWED_ORIGINS || ALLOWED_ORIGINS.length === 0) {
+        callback(null, true);
+        return;
+      }
+
+      // Check if origin is in allowed list
       if (ALLOWED_ORIGINS.includes(origin)) {
         callback(null, true);
       } else {
+        console.warn(`[CORS] Blocked origin: ${origin}. Allowed: ${ALLOWED_ORIGINS.join(', ')}`);
         callback(new Error('Origin not allowed by CORS'));
       }
     },
+    credentials: true,
   }),
 );
 
